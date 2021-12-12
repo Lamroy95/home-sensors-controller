@@ -33,7 +33,7 @@ class Updater:
             loggers.updater.info("Polling stopped")
 
     def stop(self):
-        pass
+        self.mqtt_client.disconnect()
 
     def publish(self, measurements: List[Measurement], wait: Optional[bool] = True):
         queued = [self.mqtt_client.publish(m.topic, m.value, m.qos, m.retain) for m in measurements]
