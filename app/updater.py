@@ -19,7 +19,12 @@ class Updater:
         self.mqtt_client = mqtt_client
         self.allowed_measurements = allowed_measurements
 
-    def start_polling(self, interval: int):
+    def start_polling(self, interval: int = 10):
+        """
+        Start infinite polling with cleanup.
+        :param interval: Polling interval.
+        :return:
+        """
         loggers.updater.info("Start polling")
         try:
             self.poll(interval=interval)
@@ -65,9 +70,9 @@ class Updater:
             ))
         return result
 
-    def poll(self, interval: int = 10):
+    def poll(self, interval: int):
         """
-        Runs infiite polling. Each iteration consists of gathering sensor
+        Run infiite polling. Each iteration consists of gathering sensor
         measurements and publishing them into MQTT queue.
         :param interval: Polling interval in seconds.
         :return:
