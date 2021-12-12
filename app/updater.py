@@ -66,6 +66,12 @@ class Updater:
         return result
 
     def poll(self, interval: int = 10):
+        """
+        Runs infiite polling. Each iteration consists of gathering sensor
+        measurements and publishing them into MQTT queue.
+        :param interval: Polling interval in seconds.
+        :return:
+        """
         while True:
             start_time = time.time()
 
