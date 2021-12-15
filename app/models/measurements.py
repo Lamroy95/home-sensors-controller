@@ -1,10 +1,11 @@
 from dataclasses import dataclass
+from typing import Union
 
 
 @dataclass
 class RawMeasurement:
     name: str
-    value: int
+    value: Union[int, float, str]
 
     def __repr__(self):
         return f"{self.name}: {self.value}"

@@ -2,9 +2,10 @@ import logging
 
 import paho.mqtt.client as mqtt
 
-from app.updater import Updater
-from app.deivces.air_purifier import AirPurifier
 from app import config
+from app.commander import Commander
+from app.deivces.air_purifier import AirPurifier
+from app.updater import Updater
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,6 +21,7 @@ def get_mqtt_connection() -> mqtt.Client:
         message = f"Connection to mqtt broker {config.MQTT_HOST}:{config.MQTT_PORT} failed with return code {rc}"
         logging.error(message)
         raise ConnectionError(message)
+    client.loop_start()
     return client
 
 
@@ -27,6 +29,8 @@ def main():
     mqtt_client = get_mqtt_connection()
     device = AirPurifier(place=config.PLACE, ip=config.DEVICE_IP_ADDR, token=config.DEVICE_TOKEN)
     updater = Updater(device, mqtt_client, config.ALLOWED_MEASUREMENTS)
+    commander = Commander(config.MQTT_COMMAND_TOPIC, mqtt_client, device)
+    commander.start()
 
     updater.start_polling(interval=config.POLLING_INTERVAL)
 

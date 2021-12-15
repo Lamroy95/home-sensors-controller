@@ -13,4 +13,4 @@ class AirPurifier(AirPurifierBase, Device):
 
     def get_measurements(self, measurement_names: List[str]) -> List[RawMeasurement]:
         raw_result = self.get_properties(measurement_names)
-        return [RawMeasurement(name, value) for name, value in zip(measurement_names, raw_result)]
+        return [RawMeasurement(name, value) for name, value in zip(measurement_names, raw_result) if value is not None]

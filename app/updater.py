@@ -66,7 +66,7 @@ class Updater:
                 value=m.value,
                 topic=f"/measurements/{self.device.place}/{m.name}",
                 qos=0,
-                retain=True
+                retain=False
             ))
         return result
 
